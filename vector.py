@@ -1,10 +1,17 @@
+#!/usr/bin/python
 import math
+from decimal import Decimal, getcontext
+
+getcontext().prec = 30
+CANNOT_NORMALIZE_ZERO = 'Cannot normalize the zero vector'
+
 class Vector(object):
+
     def __init__(self, coordinates):
         try:
             if not coordinates:
                 raise ValueError
-            self.coordinates = tuple(coordinates)
+            self.coordinates = tuple([Decimal(x) for x in coordinates])
             self.dimension = len(coordinates)
 
         except ValueError:
@@ -38,11 +45,26 @@ def scalar(a, scale):
 
 def magnitude(a):
     lengthSq = [math.pow(x, 2) for x in a.coordinates] 
-    return math.sqrt(sum(lengthSq))
+    return Decimal(math.sqrt(sum(lengthSq)))
 
 def normalize(a):
     length = magnitude(a)
     vector = scalar(a, (1 / length))
     return vector
 
+def innerPr(a, b):
+    product = 0
+    multiplied = [x * y for x, y in zip(a.coordinates, b.coordinates)]
+    for s in multiplied:
+        product += s
+    return product
 
+def angleRad(a,b):
+    product = innerPr(a, b)
+    magnitudeProduct = magnitude(a) * magnitude(b)
+    cos = product / magnitudeProduct
+    return math.acos(cos)
+
+def angleDeg(a, b):
+    rad = angleRad(a, b)
+    return math.degrees(rad)

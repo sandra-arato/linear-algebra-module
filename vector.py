@@ -52,6 +52,7 @@ def normalize(a):
     vector = scalar(a, (1 / length))
     return vector
 
+# also called dot product
 def innerPr(a, b):
     product = 0
     multiplied = [x * y for x, y in zip(a.coordinates, b.coordinates)]
@@ -68,3 +69,19 @@ def angleRad(a,b):
 def angleDeg(a, b):
     rad = angleRad(a, b)
     return math.degrees(rad)
+
+# projection also called parallel vector to base vector
+def project(v, b):
+    norm = normalize(b)
+    scaled = innerPr(v, norm)
+    return scalar(norm, scaled)
+
+# also called orthogonal vector to base vector
+def ortho(v, b):
+    paralel = project(v, b)
+    return subtract(v, paralel)
+
+
+vector1 = Vector([3.039, 1.879])
+base1 = Vector([0.825, 2.036])
+# print(project(vector1, base1))

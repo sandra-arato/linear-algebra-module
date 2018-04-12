@@ -81,7 +81,25 @@ def ortho(v, b):
     paralel = project(v, b)
     return subtract(v, paralel)
 
+def cross_product(a, b):
+    x = a.coordinates[1]*b.coordinates[2] - b.coordinates[1]*a.coordinates[2]
+    y = -1 * (a.coordinates[0]*b.coordinates[2] - b.coordinates[0]*a.coordinates[2])
+    z = a.coordinates[0]*b.coordinates[1] - b.coordinates[0]*a.coordinates[1]
+    return Vector([x, y, z])
 
-vector1 = Vector([3.039, 1.879])
-base1 = Vector([0.825, 2.036])
-# print(project(vector1, base1))
+def par_area(a, b):
+    vector_par = cross_product(a, b)
+    return magnitude(vector_par)
+
+def triangle_area(a,b):
+    triangle = par_area(a, b) / 2
+    return triangle
+
+
+print('#3 triangle area')
+a3 = Vector([1.5, 9.547, 3.691])
+
+b3 = Vector([-6.007, 0.124, 5.772])
+
+print(triangle_area(a3, b3))
+
